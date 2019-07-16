@@ -7,12 +7,12 @@ let options = {
   dest: "./images" // Save to /path/to/dest/image.jpg
 };
 
-let NumImages = 10;
+let NumImages = 31;
 let urlList = [];
 const url = "https://wallpaperplay.com/board/motivational-desktop-wallpapers";
 
-function getUrls() {
-  rp(url)
+async function getUrls() {
+ await rp(url)
     .then(function(html) {
       const $ = cheerio.load(html);
       console.log($("a img").attr("data-src"));
@@ -21,7 +21,7 @@ function getUrls() {
       //   // let content = $(data ,'a').attr('href');
       //   console.log(data);
       // });
-      const ImageStart = 82586;
+      const ImageStart = 82596;
       console.log("---not done");
       for (let i = 0; i < NumImages; i++) {
         let id = ImageStart + i;
@@ -46,11 +46,12 @@ async function downloadIMG() {
 }
 
 async function scrapeImages() {
+  await getUrls();
   for (let i = 0; i < NumImages; i++) {
     options.url = `https://wallpaperplay.com/${urlList[i]}`;
+    console.log('downloading..', options.url);
     await downloadIMG();
   }
 }
 
-getUrls();
-// scrapeImages();
+scrapeImages();
