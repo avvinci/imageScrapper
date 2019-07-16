@@ -1,17 +1,22 @@
 const rp = require("request-promise");
 const url = "https://wallpaperplay.com/board/motivational-desktop-wallpapers";
-const cheerio= require("cheerio");
+const cheerio = require("cheerio");
 const download = require("image-downloader");
 
 rp(url)
   .then(function(html) {
     const $ = cheerio.load(html);
-    let data = ($('#82656').html());
-    console.log(data);
-    let temp = {"data": data};
-    // var obj  = JSON.parse(temp); 
-    console.log(obj) ;
+    $("a img").attr("data-src")
+    // $("a img").each(function(i, data) {
+    //   // let content = $(data ,'a').attr('href');
+    //   console.log(data);
+    // });
+    let data = $("#82656 a img").html();
 
+    console.log("---", data);
+    console.log("---not done");
+    console.log($("#82656 a img").attr("data-src"));
+    console.log("---done");
   })
   .catch(function(err) {
     console.log(err);
